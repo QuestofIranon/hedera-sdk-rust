@@ -17,6 +17,7 @@ mod key;
 mod proto;
 mod query;
 mod query_get_account_balance;
+mod query_get_account_records;
 mod query_get_transaction_receipt;
 mod timestamp;
 mod transaction;
@@ -24,6 +25,7 @@ mod transaction_create_account;
 mod transaction_crypto_transfer;
 mod transaction_crypto_update;
 mod transaction_id;
+mod transaction_record;
 
 #[cfg(feature = "bridge-c")]
 pub use self::bridge::*;
@@ -36,9 +38,11 @@ pub use self::{
     query::Query,
     query_get_account_balance::*,
     query_get_transaction_receipt::*,
+    query_get_account_records::*,
     transaction::*,
     transaction_create_account::TransactionCreateAccount,
     transaction_crypto_transfer::TransactionCryptoTransfer,
     transaction_crypto_update::TransactionCryptoUpdate,
     transaction_id::TransactionId,
+    transaction_record::TransactionRecord,
 };
