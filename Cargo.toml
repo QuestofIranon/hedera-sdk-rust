@@ -10,6 +10,14 @@ authors = [
     "LaunchBadge <contact@launchbadge.com>"
 ]
 
+[features]
+cli = ["openssl", "structopt"]
+
+[[bin]]
+path = "src/bin.rs"
+name = "hedera-keygen"
+required-features = ["cli"]
+
 [dependencies]
 ed25519-dalek = { version = "1.0.0-pre.0", default-features = false, features = [ "std", "nightly", "u64_backend" ] }
 rand = "0.6.1"
@@ -35,6 +43,10 @@ rand_chacha = "0.1.0"
 tokio-async-await = "0.1.4"
 tokio = { version = "0.1.13", features = [ "async-await-preview" ] }
 futures = { version = "0.3.0-alpha.11", package = "futures-preview" }
+
+
+structopt = {version = "0.2.14", optional = true }
+openssl = { version = "0.10.16", optional = true }
 
 [build-dependencies]
 protoc-rust-grpc = "0.6.1"

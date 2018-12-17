@@ -7,7 +7,7 @@ mod macros;
 
 mod claim;
 pub mod client;
-mod crypto;
+pub(crate) mod crypto;
 mod duration;
 mod entity;
 mod error;
