@@ -32,19 +32,21 @@ macro_rules! prompt {
 #[derive(StructOpt, Debug)]
 #[structopt(
     name = "hedera keygen",
-    about = "Private and Public key generator for Ħedera"
+    about = "Private and Public key generator for Ħedera",
+    rename_all = "kebab-case"
 )]
 enum HederaKeygen {
     /// Generate a mnemonic and Public/Private key pair
-    #[structopt(name = "generate")]
     Generate {
         /// Print the unencrypted keys and mnemonic phrase  to the terminal
         #[structopt(long = "unencrypted", short = "u")]
         unencrypted: bool,
+
+        #[structopt(long = "passphrase", short = "p")]
+        passphrase: Option<String>,
     },
 
     /// Recover a Public/Private key pair by providing the mnemonic
-    #[structopt(name = "recover")]
     Recover {
         /// Print the unencrypted keys and mnemonic phrase  to the terminal
         #[structopt(long = "unencrypted", short = "u")]
@@ -52,22 +54,25 @@ enum HederaKeygen {
     },
 
     /// Inspect your key with the given file.
-    #[structopt(name = "inspect")]
     Inspect {
         /// the pub or pem file you want to inspect
         file: String,
     },
 }
 
-fn command_generate(unencrypted: bool) {
+fn command_generate(unencrypted: bool, passphrase: Option<String>) {
     println!(
         "Generating public/private {} key pair.",
         "ed25519".color("red")
     );
 
-    let out_file = prompt!("Enter file name in which to save the key to: ");
+    let out_file = if(!unencrypted) {
+        prompt!("Enter file name in which to save the key to: ")
+    } else {
+        String::default()
+    };
 
-    let passphrase = prompt!("Enter passphrase (empty for no passphrase): ");
+    let passphrase = passphrase.unwrap_or_else(|| prompt!("Enter passphrase (empty for no passphrase): "));
 
     if !passphrase.is_empty() {
         let mut conf_passphrase = prompt!("Enter your passphrase again: ");
@@ -161,7 +166,7 @@ fn main() {
     let command = HederaKeygen::from_args();
 
     match command {
-        HederaKeygen::Generate { unencrypted } => command_generate(unencrypted),
+        HederaKeygen::Generate { unencrypted, passphrase } => command_generate(unencrypted, passphrase),
         HederaKeygen::Recover { unencrypted } => command_recover(unencrypted),
         HederaKeygen::Inspect { file } => command_inspect(file),
     }
