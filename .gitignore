@@ -4,3 +4,7 @@
 
 # Rust artifacts
 target/
+
+# Vim
+*.swp
+*.vim
