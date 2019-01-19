@@ -16,17 +16,17 @@ use std::{
 };
 use structopt::StructOpt;
 
-macro_rules! prompt {
-   ($($arg:tt),*) => ({
-            let mut i = String::new();
+macro_rules! prompt{
+(arg:tt) => ({
+    let mut i = String::new();
 
-            print!($($arg,)*);
-            std::io::stdout().flush();
+    print ! ( $ ( $ arg, ) * );
+    std::io::stdout().flush();
 
-            std::io::stdin().read_line(&mut i);
+    std::io::stdin().read_line( & mut i);
 
-            i.trim().to_string()
-    })
+    i.trim().to_string()
+})
 }
 
 #[derive(StructOpt, Debug)]
